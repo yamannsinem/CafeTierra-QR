@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+    <persistence-unit name="CafePU" transaction-type="JTA">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <!-- GlassFish JNDI Name for the DataSource -->
+        <jta-data-source>java:app/jdbc/CafeDB</jta-data-source>
+        
+        <class>entity.Category</class>
+        <class>entity.MenuItem</class>
+        <class>entity.User</class>
+        <class>entity.CafeTable</class>
+        <class>entity.CafeOrder</class>
+        <class>entity.OrderItem</class>
+        <class>entity.WaiterRequest</class>
+        
+        <properties>
+            <!-- Drop and create tables on deployment for development -->
+            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+            
+            <!-- EclipseLink specific properties for logging -->
+            <property name="eclipselink.logging.level" value="INFO"/>
+            <property name="eclipselink.logging.parameters" value="true"/>
+            
+            <!-- Disable Shared Cache to ensure fresh data -->
+            <property name="eclipselink.cache.shared.default" value="false"/>
+            
+            <!-- Enable SQL logging to see what queries are running -->
+            <property name="eclipselink.logging.level.sql" value="FINE"/>
+        </properties>
+    </persistence-unit>
+</persistence>

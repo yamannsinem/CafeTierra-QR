@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+    <jdbc-connection-pool 
+        name="postgre_pool_cafedb" 
+        datasource-classname="org.postgresql.ds.PGSimpleDataSource" 
+        res-type="javax.sql.DataSource">
+        
+        <property name="serverName" value="localhost"/>
+        <property name="portNumber" value="5432"/>
+        <property name="databaseName" value="cafedb"/>
+        <property name="User" value="postgres"/>
+        <property name="Password" value="261004"/>
+        
+        <!-- Pool Settings -->
+        <property name="fish.payara.slow-query-threshold-in-ms" value="5000"/>
+    </jdbc-connection-pool>
+    
+    <jdbc-resource 
+        pool-name="postgre_pool_cafedb" 
+        jndi-name="java:app/jdbc/CafeDB"/>
+</resources>

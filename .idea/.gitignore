@@ -1,0 +1,39 @@
+# IntelliJ
+.idea/
+*.iml
+out/
+
+# Maven
+target/
+
+# Logs
+*.log
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# GlassFish / Payara
+glassfish/
+payara/
+
+# Local configs
+.env
+.env.local
+
+# Database configs (isteğe bağlı)
+application-local.properties
+
+# IntelliJ default ignored files
+/shelf/
+/workspace.xml
+
+# Ignored default folder with query files
+/queries/
+
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+
+# Editor-based HTTP Client requests
+/httpRequests/
