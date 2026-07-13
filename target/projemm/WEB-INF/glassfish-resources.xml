@@ -18,5 +18,5 @@
     
     <jdbc-resource 
         pool-name="postgre_pool_cafedb" 
-        jndi-name="java:app/jdbc/CafeDB"/>
+        jndi-name="jdbc/CafeDB"/>
 </resources>

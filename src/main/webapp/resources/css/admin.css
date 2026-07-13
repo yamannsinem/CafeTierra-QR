@@ -1,0 +1,90 @@
+:root {
+    --primary-accent: #2E8B57; /* SeaGreen - vibrant */
+    --accent-coffee: #A67C52; /* Latte accent */
+    --bg-dark: #121413;
+    --surface-dark: #1A1F1C;
+    --surface-light: #242A27;
+    --text-beige: #EAE0D5;
+    --white: #FFFFFF;
+}
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--white);
+    background: linear-gradient(to bottom, #121413 0%, #1a1512 100%);
+    background-attachment: fixed;
+}
+.navbar-admin {
+    background-color: var(--surface-dark);
+    border-bottom: 2px solid var(--primary-accent);
+}
+.nav-tabs .nav-link {
+    color: var(--text-beige);
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-weight: 500;
+    padding: 1rem 1.5rem;
+}
+.nav-tabs .nav-link:hover {
+    color: var(--white);
+    border-bottom: 2px solid rgba(46, 139, 87, 0.5);
+}
+.nav-tabs .nav-link.active {
+    color: var(--primary-accent);
+    background-color: transparent;
+    border-bottom: 2px solid var(--primary-accent);
+}
+
+.card {
+    background-color: var(--surface-dark);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+.card-header {
+    background-color: rgba(46, 139, 87, 0.1);
+    border-bottom: 1px solid rgba(46, 139, 87, 0.2);
+    color: var(--text-beige);
+    font-weight: 600;
+    border-radius: 12px 12px 0 0 !important;
+}
+.card-body { padding: 1.5rem; }
+
+/* Forms and Inputs */
+.form-control, .form-select { 
+    background-color: var(--surface-light); 
+    border: 1px solid rgba(255,255,255,0.1); 
+    color: var(--white);
+}
+.form-control:focus, .form-select:focus { 
+    background-color: #111; 
+    border-color: var(--primary-accent); 
+    color: var(--white);
+    box-shadow: 0 0 0 0.25rem rgba(46, 139, 87, 0.25);
+}
+
+.btn-accent {
+    background: linear-gradient(135deg, var(--primary-accent) 0%, #20B2AA 100%);
+    color: var(--white) !important;
+    font-weight: 600;
+    border: none;
+}
+.btn-accent:hover {
+    background: linear-gradient(135deg, #20B2AA 0%, var(--primary-accent) 100%);
+    color: var(--white);
+    transform: translateY(-1px);
+}
+
+.table { color: var(--text-beige); }
+.table-dark { background-color: var(--surface-dark); }
+.table-dark th { background-color: rgba(255,255,255,0.05); color: var(--white); border-color: rgba(255,255,255,0.1); }
+.table-dark td { border-color: rgba(255,255,255,0.05); vertical-align: middle; }
+
+.badge-pending { background-color: rgba(220,53,69,0.2); color: #ff6b6b; border: 1px solid #dc3545; }
+.badge-preparing { background-color: rgba(255,193,7,0.2); color: #ffc107; border: 1px solid #ffc107; }
+.badge-ready { background-color: rgba(40,167,69,0.2); color: #28a745; border: 1px solid #28a745; }
+
+.messages { list-style: none; padding: 0; }
+.messages li { padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center; }
+.messages li.info { background-color: rgba(46, 139, 87, 0.2); color: var(--primary-accent); border: 1px solid var(--primary-accent); }
+.messages li.error { background-color: rgba(220,53,69,0.2); color: #ff6b6b; border: 1px solid #dc3545; }

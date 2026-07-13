@@ -6,11 +6,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "waiter_requests")
-public class WaiterRequest implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class WaiterRequest extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "table_id", nullable = false)
@@ -31,8 +27,6 @@ public class WaiterRequest implements Serializable {
     }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
     public CafeTable getCafeTable() { return cafeTable; }
     public void setCafeTable(CafeTable cafeTable) { this.cafeTable = cafeTable; }
     public LocalDateTime getRequestTime() { return requestTime; }

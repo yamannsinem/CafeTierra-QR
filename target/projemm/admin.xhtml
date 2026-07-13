@@ -17,98 +17,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Outfit:wght@300;400;500;600&amp;display=swap" rel="stylesheet" />
     
-    <style>
-        :root {
-            --primary-accent: #2E8B57; /* SeaGreen - vibrant */
-            --accent-coffee: #A67C52; /* Latte accent */
-            --bg-dark: #121413;
-            --surface-dark: #1A1F1C;
-            --surface-light: #242A27;
-            --text-beige: #EAE0D5;
-            --white: #FFFFFF;
-        }
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--white);
-            background: linear-gradient(to bottom, #121413 0%, #1a1512 100%);
-            background-attachment: fixed;
-        }
-        .navbar-admin {
-            background-color: var(--surface-dark);
-            border-bottom: 2px solid var(--primary-accent);
-        }
-        .nav-tabs .nav-link {
-            color: var(--text-beige);
-            border: none;
-            border-bottom: 2px solid transparent;
-            font-weight: 500;
-            padding: 1rem 1.5rem;
-        }
-        .nav-tabs .nav-link:hover {
-            color: var(--white);
-            border-bottom: 2px solid rgba(46, 139, 87, 0.5);
-        }
-        .nav-tabs .nav-link.active {
-            color: var(--primary-accent);
-            background-color: transparent;
-            border-bottom: 2px solid var(--primary-accent);
-        }
-        
-        .card {
-            background-color: var(--surface-dark);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        .card-header {
-            background-color: rgba(46, 139, 87, 0.1);
-            border-bottom: 1px solid rgba(46, 139, 87, 0.2);
-            color: var(--text-beige);
-            font-weight: 600;
-            border-radius: 12px 12px 0 0 !important;
-        }
-        .card-body { padding: 1.5rem; }
-        
-        /* Forms and Inputs */
-        .form-control, .form-select { 
-            background-color: var(--surface-light); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            color: var(--white);
-        }
-        .form-control:focus, .form-select:focus { 
-            background-color: #111; 
-            border-color: var(--primary-accent); 
-            color: var(--white);
-            box-shadow: 0 0 0 0.25rem rgba(46, 139, 87, 0.25);
-        }
-        
-        .btn-accent {
-            background: linear-gradient(135deg, var(--primary-accent) 0%, #20B2AA 100%);
-            color: var(--white) !important;
-            font-weight: 600;
-            border: none;
-        }
-        .btn-accent:hover {
-            background: linear-gradient(135deg, #20B2AA 0%, var(--primary-accent) 100%);
-            color: var(--white);
-            transform: translateY(-1px);
-        }
-        
-        .table { color: var(--text-beige); }
-        .table-dark { background-color: var(--surface-dark); }
-        .table-dark th { background-color: rgba(255,255,255,0.05); color: var(--white); border-color: rgba(255,255,255,0.1); }
-        .table-dark td { border-color: rgba(255,255,255,0.05); vertical-align: middle; }
-        
-        .badge-pending { background-color: rgba(220,53,69,0.2); color: #ff6b6b; border: 1px solid #dc3545; }
-        .badge-preparing { background-color: rgba(255,193,7,0.2); color: #ffc107; border: 1px solid #ffc107; }
-        .badge-ready { background-color: rgba(40,167,69,0.2); color: #28a745; border: 1px solid #28a745; }
-        
-        .messages { list-style: none; padding: 0; }
-        .messages li { padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center; }
-        .messages li.info { background-color: rgba(46, 139, 87, 0.2); color: var(--primary-accent); border: 1px solid var(--primary-accent); }
-        .messages li.error { background-color: rgba(220,53,69,0.2); color: #ff6b6b; border: 1px solid #dc3545; }
-    </style>
+    <h:outputStylesheet library="css" name="admin.css" />
 </h:head>
 <h:body>
 
@@ -158,15 +67,15 @@
                 
                 <h:form id="ordersForm">
                     <!-- Waiter Requests -->
-                    <h:panelGroup rendered="#{not empty adminDashboardBean.waiterRequests}">
+                    <h:panelGroup rendered="#{not empty adminOrderBean.waiterRequests}">
                         <div class="alert alert-danger border-danger mb-4 d-flex align-items-center" role="alert" style="background-color: rgba(220,53,69,0.1);">
                             <i class="bi bi-exclamation-triangle-fill fs-3 me-3 text-danger"></i>
                             <div>
                                 <h5 class="alert-heading text-danger mb-1">Garson Çağrısı!</h5>
-                                <ui:repeat value="#{adminDashboardBean.waiterRequests}" var="req">
+                                <ui:repeat value="#{adminOrderBean.waiterRequests}" var="req">
                                     <div class="d-flex justify-content-between align-items-center mt-2 p-2 rounded" style="background: rgba(255,255,255,0.05);">
                                         <span><strong class="fs-5 text-white">#{req.cafeTable.tableNumber}</strong> masasından garson çağırıldı!</span>
-                                        <h:commandButton value="İlgilendim" action="#{adminDashboardBean.resolveWaiterRequest(req.id)}" styleClass="btn btn-sm btn-outline-danger">
+                                        <h:commandButton value="İlgilendim" action="#{adminOrderBean.resolveWaiterRequest(req.id)}" styleClass="btn btn-sm btn-outline-danger">
                                             <f:ajax render="@form :globalMsgs" />
                                         </h:commandButton>
                                     </div>
@@ -178,14 +87,14 @@
                     <!-- Live Orders -->
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h4 class="mb-0 text-white">Canlı Sipariş Ekranı</h4>
-                        <h:commandLink action="#{adminDashboardBean.refreshData}" styleClass="btn btn-outline-secondary btn-sm">
+                        <h:commandLink action="#{adminOrderBean.refreshData}" styleClass="btn btn-outline-secondary btn-sm">
                             <i class="bi bi-arrow-clockwise me-1"></i> Sayfayı Yenile
                             <f:ajax render="@form" />
                         </h:commandLink>
                     </div>
 
                     <div class="row g-4">
-                        <ui:repeat value="#{adminDashboardBean.activeOrders}" var="order">
+                        <ui:repeat value="#{adminOrderBean.activeOrders}" var="order">
                             <div class="col-md-6 col-lg-4">
                                 <div class="card h-100 border-0" style="background: #{order.status == 'PENDING' ? 'rgba(220,53,69,0.05)' : 'var(--surface-dark)'};">
                                     <div class="card-header d-flex justify-content-between align-items-center bg-transparent border-bottom border-secondary">
@@ -211,13 +120,13 @@
                                                 <h5 class="mb-0" style="color:var(--primary-accent);">#{order.totalAmount} ₺</h5>
                                             </div>
                                             <div>
-                                                <h:commandButton value="Hazırlanıyor İşaretle" action="#{adminDashboardBean.updateOrderStatus(order.id, 'PREPARING')}" styleClass="btn btn-outline-warning w-100" rendered="#{order.status == 'PENDING'}">
+                                                <h:commandButton value="Hazırlanıyor İşaretle" action="#{adminOrderBean.updateOrderStatus(order.id, 'PREPARING')}" styleClass="btn btn-outline-warning w-100" rendered="#{order.status == 'PENDING'}">
                                                     <f:ajax render="@form" />
                                                 </h:commandButton>
-                                                <h:commandButton value="Hazır (Teslim Et)" action="#{adminDashboardBean.updateOrderStatus(order.id, 'READY')}" styleClass="btn btn-outline-success w-100" rendered="#{order.status == 'PREPARING'}">
+                                                <h:commandButton value="Hazır (Teslim Et)" action="#{adminOrderBean.updateOrderStatus(order.id, 'READY')}" styleClass="btn btn-outline-success w-100" rendered="#{order.status == 'PREPARING'}">
                                                     <f:ajax render="@form" />
                                                 </h:commandButton>
-                                                <h:commandButton value="Teslim Edildi ve Kapat" action="#{adminDashboardBean.updateOrderStatus(order.id, 'DELIVERED')}" styleClass="btn btn-success w-100 mt-2" rendered="#{order.status == 'READY'}">
+                                                <h:commandButton value="Teslim Edildi ve Kapat" action="#{adminOrderBean.updateOrderStatus(order.id, 'DELIVERED')}" styleClass="btn btn-success w-100 mt-2" rendered="#{order.status == 'READY'}">
                                                     <f:ajax render="@form" />
                                                 </h:commandButton>
                                             </div>
@@ -226,7 +135,7 @@
                                 </div>
                             </div>
                         </ui:repeat>
-                        <h:panelGroup rendered="#{empty adminDashboardBean.activeOrders}">
+                        <h:panelGroup rendered="#{empty adminOrderBean.activeOrders}">
                             <div class="col-12 text-center py-5">
                                 <i class="bi bi-cup-hot text-secondary" style="font-size: 4rem;"></i>
                                 <h4 class="mt-3 text-beige">Şu an bekleyen sipariş yok</h4>
@@ -248,9 +157,9 @@
                             <div class="card-body">
                                 <h:form id="categoryForm">
                                     <div class="mb-3">
-                                        <h:inputText value="#{adminDashboardBean.newCategory.name}" styleClass="form-control" required="true" requiredMessage="Kategori adı boş olamaz" p:placeholder="Örn: Tatlılar, İçecekler" />
+                                        <h:inputText value="#{adminMenuBean.newCategory.name}" styleClass="form-control" required="true" requiredMessage="Kategori adı boş olamaz" p:placeholder="Örn: Tatlılar, İçecekler" />
                                     </div>
-                                    <h:commandButton value="Kategori Ekle" action="#{adminDashboardBean.addCategory}" styleClass="btn btn-accent w-100">
+                                    <h:commandButton value="Kategori Ekle" action="#{adminMenuBean.addCategory}" styleClass="btn btn-accent w-100">
                                         <f:ajax execute="@form" render="@form :menuItemForm :globalMsgs" />
                                     </h:commandButton>
                                     
@@ -258,10 +167,10 @@
                                     <div class="mt-4">
                                         <h6 class="text-beige border-bottom border-secondary pb-2">Mevcut Kategoriler</h6>
                                         <ul class="list-group list-group-flush bg-transparent">
-                                            <ui:repeat value="#{adminDashboardBean.categories}" var="c">
+                                            <ui:repeat value="#{adminMenuBean.categories}" var="c">
                                                 <li class="list-group-item bg-transparent text-white border-secondary d-flex justify-content-between align-items-center px-0">
                                                     #{c.name}
-                                                    <h:commandLink action="#{adminDashboardBean.deleteCategory(c.id)}" styleClass="btn btn-sm btn-outline-danger py-0 px-2" onclick="return confirm('Silmek istediğinize emin misiniz? (İçinde ürün varsa silinemez)');" title="Sil">
+                                                    <h:commandLink action="#{adminMenuBean.deleteCategory(c.id)}" styleClass="btn btn-sm btn-outline-danger py-0 px-2" onclick="return confirm('Silmek istediğinize emin misiniz? (İçinde ürün varsa silinemez)');" title="Sil">
                                                         <i class="bi bi-trash"></i>
                                                         <f:ajax render="@form :menuItemForm :globalMsgs" />
                                                     </h:commandLink>
@@ -284,26 +193,26 @@
                                     <div class="row g-3">
                                         <div class="col-md-4">
                                             <h:outputLabel value="Kategori" styleClass="form-label text-beige small"/>
-                                            <h:selectOneMenu value="#{adminDashboardBean.selectedCategoryId}" styleClass="form-select" required="true">
+                                            <h:selectOneMenu value="#{adminMenuBean.selectedCategoryId}" styleClass="form-select" required="true">
                                                 <f:selectItem itemLabel="Kategori Seçiniz..." itemValue="#{null}" />
-                                                <f:selectItems value="#{adminDashboardBean.categories}" var="cat" itemValue="#{cat.id}" itemLabel="#{cat.name}" />
+                                                <f:selectItems value="#{adminMenuBean.categories}" var="cat" itemValue="#{cat.id}" itemLabel="#{cat.name}" />
                                             </h:selectOneMenu>
                                         </div>
                                         <div class="col-md-5">
                                             <h:outputLabel value="Ürün Adı" styleClass="form-label text-beige small"/>
-                                            <h:inputText value="#{adminDashboardBean.newMenuItem.name}" styleClass="form-control" required="true" requiredMessage="Ürün adı zorunludur" p:placeholder="Örn: Filtre Kahve" />
+                                            <h:inputText value="#{adminMenuBean.newMenuItem.name}" styleClass="form-control" required="true" requiredMessage="Ürün adı zorunludur" p:placeholder="Örn: Filtre Kahve" />
                                         </div>
                                         <div class="col-md-3">
                                             <h:outputLabel value="Fiyat (₺)" styleClass="form-label text-beige small"/>
-                                            <h:inputText value="#{adminDashboardBean.newMenuItem.price}" styleClass="form-control" required="true" p:placeholder="0.00" />
+                                            <h:inputText value="#{adminMenuBean.newMenuItem.price}" styleClass="form-control" required="true" p:placeholder="0.00" />
                                         </div>
                                         <div class="col-12">
                                             <h:outputLabel value="Açıklama (Opsiyonel)" styleClass="form-label text-beige small"/>
-                                            <h:inputTextarea value="#{adminDashboardBean.newMenuItem.description}" styleClass="form-control" rows="2" p:placeholder="İçindekiler vb." />
+                                            <h:inputTextarea value="#{adminMenuBean.newMenuItem.description}" styleClass="form-control" rows="2" p:placeholder="İçindekiler vb." />
                                         </div>
                                     </div>
                                     <div class="mt-3 text-end">
-                                        <h:commandButton value="Ürünü Kaydet" action="#{adminDashboardBean.addMenuItem}" styleClass="btn btn-accent px-4">
+                                        <h:commandButton value="Ürünü Kaydet" action="#{adminMenuBean.addMenuItem}" styleClass="btn btn-accent px-4">
                                             <f:ajax execute="@form" render="@form :menuListForm :globalMsgs" />
                                         </h:commandButton>
                                     </div>
@@ -319,7 +228,7 @@
                             <div class="card-body p-0">
                                 <h:form id="menuListForm">
                                     <div class="table-responsive">
-                                        <h:dataTable value="#{adminDashboardBean.menuItems}" var="item" styleClass="table table-dark table-hover mb-0 align-middle">
+                                        <h:dataTable value="#{adminMenuBean.menuItems}" var="item" styleClass="table table-dark table-hover mb-0 align-middle">
                                             <h:column>
                                                 <f:facet name="header">Kategori</f:facet>
                                                 <span class="badge bg-secondary">#{item.category.name}</span>
@@ -332,7 +241,7 @@
                                                 <f:facet name="header">Fiyat</f:facet>
                                                 <div class="input-group input-group-sm" style="width: 120px;">
                                                     <h:inputText value="#{item.price}" styleClass="form-control bg-dark text-white border-secondary" />
-                                                    <h:commandLink action="#{adminDashboardBean.updateMenuItemPrice(item)}" styleClass="btn btn-outline-success px-2" title="Fiyatı Güncelle" onclick="return confirm('Fiyatı güncellemek istediğinize emin misiniz?');">
+                                                    <h:commandLink action="#{adminMenuBean.updateMenuItemPrice(item)}" styleClass="btn btn-outline-success px-2" title="Fiyatı Güncelle" onclick="return confirm('Fiyatı güncellemek istediğinize emin misiniz?');">
                                                         <i class="bi bi-check-lg"></i>
                                                         <f:ajax execute="@form" render=":globalMsgs" />
                                                     </h:commandLink>
@@ -340,20 +249,20 @@
                                             </h:column>
                                             <h:column>
                                                 <f:facet name="header">Durum</f:facet>
-                                                <h:commandLink action="#{adminDashboardBean.toggleAvailability(item)}" styleClass="badge #{item.isAvailable ? 'bg-success' : 'bg-danger'} text-decoration-none px-3 py-2">
+                                                <h:commandLink action="#{adminMenuBean.toggleAvailability(item)}" styleClass="badge #{item.isAvailable ? 'bg-success' : 'bg-danger'} text-decoration-none px-3 py-2">
                                                     #{item.isAvailable ? 'Satışta' : 'Tükendi'}
                                                     <f:ajax render="@form" />
                                                 </h:commandLink>
                                             </h:column>
                                             <h:column>
                                                 <f:facet name="header">İşlem</f:facet>
-                                                <h:commandLink action="#{adminDashboardBean.deleteMenuItem(item.id)}" styleClass="btn btn-sm btn-outline-danger" onclick="return confirm('Bu ürünü silmek istediğinize emin misiniz?');">
+                                                <h:commandLink action="#{adminMenuBean.deleteMenuItem(item.id)}" styleClass="btn btn-sm btn-outline-danger" onclick="return confirm('Bu ürünü silmek istediğinize emin misiniz?');">
                                                     <i class="bi bi-trash"></i>
                                                     <f:ajax render="@form" />
                                                 </h:commandLink>
                                             </h:column>
                                         </h:dataTable>
-                                        <h:panelGroup rendered="#{empty adminDashboardBean.menuItems}">
+                                        <h:panelGroup rendered="#{empty adminMenuBean.menuItems}">
                                             <div class="text-center py-4 text-muted">
                                                 Henüz ürün eklenmemiş.
                                             </div>
@@ -376,9 +285,9 @@
                                 <h:form id="tableForm">
                                     <div class="mb-3">
                                         <h:outputLabel value="Masa Adı / Numarası" styleClass="form-label text-beige small"/>
-                                        <h:inputText value="#{adminDashboardBean.newTable.tableNumber}" styleClass="form-control" required="true" p:placeholder="Örn: Masa 1, VIP 2" />
+                                        <h:inputText value="#{adminTableBean.newTable.tableNumber}" styleClass="form-control" required="true" p:placeholder="Örn: Masa 1, VIP 2" />
                                     </div>
-                                    <h:commandButton value="Masayı Ekle" action="#{adminDashboardBean.addTable}" styleClass="btn btn-accent w-100">
+                                    <h:commandButton value="Masayı Ekle" action="#{adminTableBean.addTable}" styleClass="btn btn-accent w-100">
                                         <f:ajax execute="@form" render="@form :tableListForm :globalMsgs" />
                                     </h:commandButton>
                                 </h:form>
@@ -390,12 +299,12 @@
                             <div class="card-body">
                                 <h:form id="tableListForm">
                                     <div class="row g-3">
-                                        <ui:repeat value="#{adminDashboardBean.tables}" var="t">
+                                        <ui:repeat value="#{adminTableBean.tables}" var="t">
                                             <div class="col-6 col-sm-4">
                                                 <div class="p-3 border border-secondary rounded text-center d-flex flex-column h-100" style="background: rgba(255,255,255,0.02);">
                                                     <i class="bi bi-display fs-2 text-accent mb-2" style="color:var(--primary-accent);"></i>
                                                     <strong class="text-white mb-3">#{t.tableNumber}</strong>
-                                                    <h:commandLink action="#{adminDashboardBean.deleteTable(t.id)}" styleClass="btn btn-sm btn-outline-danger w-100 mt-auto" onclick="return confirm('Bu masayı silmek istediğinize emin misiniz?');">
+                                                    <h:commandLink action="#{adminTableBean.deleteTable(t.id)}" styleClass="btn btn-sm btn-outline-danger w-100 mt-auto" onclick="return confirm('Bu masayı silmek istediğinize emin misiniz?');">
                                                         <i class="bi bi-trash"></i> Sil
                                                         <f:ajax render="@form" />
                                                     </h:commandLink>
@@ -403,7 +312,7 @@
                                             </div>
                                         </ui:repeat>
                                     </div>
-                                    <h:panelGroup rendered="#{empty adminDashboardBean.tables}">
+                                    <h:panelGroup rendered="#{empty adminTableBean.tables}">
                                         <div class="text-center py-3 text-muted">
                                             Sistemde kayıtlı masa bulunmuyor.
                                         </div>

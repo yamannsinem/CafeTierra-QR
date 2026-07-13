@@ -10,11 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "cafe_orders")
-public class CafeOrder implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class CafeOrder extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "table_id", nullable = false)
@@ -40,8 +36,6 @@ public class CafeOrder implements Serializable {
     }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
     public CafeTable getCafeTable() { return cafeTable; }
     public void setCafeTable(CafeTable cafeTable) { this.cafeTable = cafeTable; }
     public LocalDateTime getOrderTime() { return orderTime; }

@@ -6,91 +6,13 @@
       xmlns:p="jakarta.faces.passthrough"
       data-bs-theme="dark">
 <h:head>
-    <title>tierra - Ödeme</title>
+    <title>tierra - #{languageBean.tr('Ödeme', 'Payment')}</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Outfit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
-    <style>
-        :root {
-            --primary-accent: #2E8B57; /* More dominant, vibrant SeaGreen */
-            --accent-coffee: #A67C52; /* Latte accent */
-            --primary-dark: #1E5C3A;
-            --bg-dark: #121413;
-            --surface-dark: #1A1F1C;
-            --surface-light: #242A27;
-            --text-beige: #EAE0D5;
-            --white: #FFFFFF;
-        }
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--white);
-            background: linear-gradient(to bottom, #121413 0%, #1a1512 100%);
-            background-attachment: fixed;
-        }
-        .navbar-glass {
-            background: rgba(18,20,19,0.9) !important;
-            backdrop-filter: blur(15px);
-            border-bottom: 2px solid var(--primary-accent);
-        }
-        .payment-card {
-            background-color: var(--surface-dark);
-            border: 1px solid rgba(46, 139, 87, 0.3);
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-        }
-        .order-summary {
-            background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(46, 139, 87, 0.2);
-            border-radius: 15px;
-            padding: 1.5rem;
-        }
-        .form-control {
-            background-color: #111;
-            border: 1px solid rgba(255,255,255,0.1);
-            color: var(--white);
-            padding: 12px;
-        }
-        .form-control:focus {
-            background-color: #000;
-            border-color: var(--primary-accent);
-            color: var(--white);
-            box-shadow: 0 0 0 0.25rem rgba(46, 139, 87, 0.3);
-        }
-        .btn-accent {
-            background: linear-gradient(135deg, var(--primary-accent) 0%, #20B2AA 100%);
-            color: #fff !important;
-            font-weight: 700;
-            border: none;
-            border-radius: 12px;
-            padding: 16px;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            box-shadow: 0 6px 25px rgba(46, 139, 87, 0.4);
-        }
-        .btn-accent:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(46, 139, 87, 0.6);
-            background: linear-gradient(135deg, #20B2AA 0%, var(--primary-accent) 100%);
-        }
-        .payment-method-box {
-            border: 2px solid var(--primary-accent);
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            background: rgba(46, 139, 87, 0.15);
-            color: var(--primary-accent);
-        }
-        .text-beige {
-            color: var(--text-beige) !important;
-        }
-        .messages { list-style: none; padding: 0; }
-        .messages li { padding: 15px; border-radius: 8px; margin-bottom: 15px; }
-        .messages li.error { background-color: rgba(220, 53, 69, 0.15); color: #ff6b6b; border: 1px solid #dc3545; }
-    </style>
+    <h:outputStylesheet library="css" name="payment.css" />
 </h:head>
 <h:body>
 
@@ -99,10 +21,19 @@
             <h:form>
                 <h:commandLink action="index.xhtml?faces-redirect=true" styleClass="text-white text-decoration-none d-flex align-items-center">
                     <i class="bi bi-arrow-left me-2 fs-5"></i>
-                    <span class="fs-5">Menüye Dön</span>
+                    <span class="fs-5">#{languageBean.tr('Menüye Dön', 'Back to Menu')}</span>
                 </h:commandLink>
             </h:form>
-            <span class="navbar-brand ms-auto fw-bold" style="color: var(--primary-accent);"><i class="bi bi-shield-lock-fill me-2"></i>Güvenli Ödeme</span>
+            
+            <div class="d-flex align-items-center ms-auto">
+                <h:form id="langForm" style="display: inline;" class="me-3">
+                    <h:commandLink action="#{languageBean.toggleLanguage}" styleClass="btn btn-sm d-flex align-items-center" style="border-radius: 20px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #EAE0D5; padding: 6px 12px; font-weight: 500; font-size: 0.85rem; text-decoration: none;">
+                        <i class="bi bi-globe me-2" style="color: var(--accent-coffee);"></i>
+                        #{languageBean.language == 'TR' ? 'EN' : 'TR'}
+                    </h:commandLink>
+                </h:form>
+                <span class="navbar-brand fw-bold" style="color: var(--primary-accent);"><i class="bi bi-shield-lock-fill me-2"></i>#{languageBean.tr('Güvenli Ödeme', 'Secure Payment')}</span>
+            </div>
         </div>
     </nav>
 
@@ -114,18 +45,18 @@
 
                 <h:form id="paymentForm">
                     <div class="payment-card">
-                        <h3 class="mb-4 text-white fw-bold">Siparişi Tamamla</h3>
+                        <h3 class="mb-4 text-white fw-bold">#{languageBean.tr('Siparişi Tamamla', 'Complete Order')}</h3>
                         
                         <div class="row g-4">
                             <!-- Left: Order Summary -->
                             <div class="col-md-5">
                                 <div class="order-summary h-100">
-                                    <h5 class="text-beige mb-4 border-bottom border-secondary pb-2">Sipariş Özeti</h5>
+                                    <h5 class="text-beige mb-4 border-bottom border-secondary pb-2">#{languageBean.tr('Sipariş Özeti', 'Order Summary')}</h5>
                                     
                                     <div class="mb-3" style="max-height: 200px; overflow-y: auto;">
-                                        <ui:repeat value="#{customerSessionBean.cartItems}" var="entry">
+                                        <ui:repeat value="#{cartBean.cartItems}" var="entry">
                                             <div class="d-flex justify-content-between mb-3 text-white">
-                                                <span><span style="color: var(--primary-accent); font-weight:bold;">#{entry.quantity}x</span> #{entry.menuItem.name}</span>
+                                                <span><span style="color: var(--primary-accent); font-weight:bold;">#{entry.quantity}x</span> #{languageBean.getItemName(entry.menuItem)}</span>
                                                 <span>#{entry.totalPrice} ₺</span>
                                             </div>
                                         </ui:repeat>
@@ -134,8 +65,8 @@
                                     <hr class="border-secondary mt-auto" />
                                     
                                     <div class="d-flex justify-content-between align-items-center mt-3">
-                                        <span class="text-beige fs-5">Toplam Tutar</span>
-                                        <span class="fs-2 fw-bold" style="color: var(--primary-accent);">#{customerSessionBean.cartTotal} ₺</span>
+                                        <span class="text-beige fs-5">#{languageBean.tr('Toplam Tutar', 'Total Amount')}</span>
+                                        <span class="fs-2 fw-bold" style="color: var(--primary-accent);">#{cartBean.cartTotal} ₺</span>
                                     </div>
                                 </div>
                             </div>
@@ -143,45 +74,45 @@
                             <!-- Right: Payment Details -->
                             <div class="col-md-7">
                                 <div class="p-3 rounded" style="background: rgba(0,0,0,0.3);">
-                                    <h5 class="text-beige mb-3">Ödeme Yöntemi</h5>
+                                    <h5 class="text-beige mb-3">#{languageBean.tr('Ödeme Yöntemi', 'Payment Method')}</h5>
                                     
                                     <div class="row g-2 mb-4">
                                         <div class="col-6">
                                             <div class="payment-method-box active">
                                                 <i class="bi bi-credit-card-fill fs-3 d-block mb-2"></i>
-                                                <span class="fw-bold d-block" style="font-size: 0.9rem;">Kredi Kartı</span>
-                                                <span class="small opacity-75">Online Ödeme</span>
+                                                <span class="fw-bold d-block" style="font-size: 0.9rem;">#{languageBean.tr('Kredi Kartı', 'Credit Card')}</span>
+                                                <span class="small opacity-75">#{languageBean.tr('Online Ödeme', 'Online Payment')}</span>
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <div class="payment-method-box" style="border-color: rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: #888; cursor: not-allowed; opacity: 0.6;" title="Sadece online ödemeler aktiftir">
+                                            <div class="payment-method-box" style="border-color: rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: #888; cursor: not-allowed; opacity: 0.6;" title="#{languageBean.tr('Sadece online ödemeler aktiftir', 'Only online payments are active')}">
                                                 <i class="bi bi-cash-coin fs-3 d-block mb-2"></i>
-                                                <span class="fw-bold d-block" style="font-size: 0.9rem;">Nakit</span>
-                                                <span class="small opacity-75">(Kasada)</span>
+                                                <span class="fw-bold d-block" style="font-size: 0.9rem;">#{languageBean.tr('Nakit', 'Cash')}</span>
+                                                <span class="small opacity-75">#{languageBean.tr('(Kasada)', '(At Register)')}</span>
                                             </div>
                                         </div>
                                     </div>
                                     
                                     <div class="mb-3">
-                                        <h:outputLabel value="Kart Üzerindeki İsim" styleClass="form-label text-beige small"/>
-                                        <h:inputText id="cardName" styleClass="form-control" required="true" requiredMessage="Kart üzerindeki isim gereklidir." p:placeholder="Örn: Veli Yılmaz" />
+                                        <h:outputLabel value="#{languageBean.tr('Kart Üzerindeki İsim', 'Name on Card')}" styleClass="form-label text-beige small"/>
+                                        <h:inputText id="cardName" value="#{paymentBean.cardName}" styleClass="form-control" required="true" requiredMessage="#{languageBean.tr('Kart üzerindeki isim gereklidir.', 'Name on card is required.')}" p:placeholder="#{languageBean.tr('Örn: Veli Yılmaz', 'e.g. John Doe')}" />
                                     </div>
                                     <div class="mb-3">
-                                        <h:outputLabel value="Kart Numarası" styleClass="form-label text-beige small"/>
-                                        <h:inputText id="cardNumber" styleClass="form-control" required="true" requiredMessage="Kart numarası gereklidir." p:placeholder="0000 0000 0000 0000" />
+                                        <h:outputLabel value="#{languageBean.tr('Kart Numarası', 'Card Number')}" styleClass="form-label text-beige small"/>
+                                        <h:inputText id="cardNumber" value="#{paymentBean.cardNumber}" styleClass="form-control" required="true" requiredMessage="#{languageBean.tr('Kart numarası gereklidir.', 'Card number is required.')}" p:placeholder="0000 0000 0000 0000" />
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
-                                            <h:outputLabel value="Son Kullanma (AA/YY)" styleClass="form-label text-beige small"/>
-                                            <h:inputText id="cardDate" styleClass="form-control" required="true" requiredMessage="Son kullanma tarihi gereklidir." p:placeholder="12/25" />
+                                            <h:outputLabel value="#{languageBean.tr('Son Kullanma (AA/YY)', 'Expiration (MM/YY)')}" styleClass="form-label text-beige small"/>
+                                            <h:inputText id="cardDate" value="#{paymentBean.cardDate}" styleClass="form-control" required="true" requiredMessage="#{languageBean.tr('Son kullanma tarihi gereklidir.', 'Expiration date is required.')}" p:placeholder="12/25" />
                                         </div>
                                         <div class="col-6">
-                                            <h:outputLabel value="CVV" styleClass="form-label text-beige small"/>
-                                            <h:inputSecret id="cardCvv" styleClass="form-control" required="true" requiredMessage="CVV gereklidir." p:placeholder="***" />
+                                            <h:outputLabel value="#{languageBean.tr('CVV', 'CVV')}" styleClass="form-label text-beige small"/>
+                                            <h:inputSecret id="cardCvv" value="#{paymentBean.cardCvv}" styleClass="form-control" required="true" requiredMessage="#{languageBean.tr('CVV gereklidir.', 'CVV is required.')}" p:placeholder="***" />
                                         </div>
                                     </div>
                                     
-                                    <h:commandButton value="#{customerSessionBean.cartTotal} ₺ Öde ve Siparişi Tamamla" action="#{customerSessionBean.placeOrder}" styleClass="btn btn-accent mt-4 w-100" />
+                                    <h:commandButton value="#{cartBean.cartTotal} ₺ #{languageBean.tr('Öde ve Siparişi Tamamla', 'Pay &amp; Complete Order')}" action="#{paymentBean.placeOrder}" styleClass="btn btn-accent mt-4 w-100" />
                                 </div>
                             </div>
                         </div>

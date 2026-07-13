@@ -1,34 +1,44 @@
 package facade;
 
 import entity.User;
-import facadeLocal.AuthFacadeLocal;
+import facadelocal.AuthFacadeLocal;
+import security.PasswordUtil;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
 
 @Stateless
-public class AuthFacade implements AuthFacadeLocal {
+public class AuthFacade extends AbstractFacade<User> implements AuthFacadeLocal {
 
     @PersistenceContext(unitName = "CafePU")
     private EntityManager em;
 
-    @Override
-    public User login(String username, String password) {
-        List<User> users = em.createQuery("SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class)
-                .setParameter("username", username)
-                .setParameter("password", password)
-                .getResultList();
-        
-        return users.isEmpty() ? null : users.get(0);
+    public AuthFacade() {
+        super(User.class);
     }
 
     @Override
-    public void initDefaultAdmin() {
-        List<User> users = em.createQuery("SELECT u FROM User u WHERE u.username = 'admin'", User.class).getResultList();
-        if (users.isEmpty()) {
-            User admin = new User("admin", "admin123");
-            em.persist(admin);
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
+    @Override
+    public User login(String username, String password) {
+        if (username == null || password == null) {
+            return null;
         }
+        List<User> users = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+                .setParameter("username", username)
+                .getResultList();
+        
+        if (users.isEmpty()) {
+            return null;
+        }
+        User user = users.get(0);
+        if (PasswordUtil.checkPassword(password, user.getPassword())) {
+            return user;
+        }
+        return null;
     }
 }

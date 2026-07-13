@@ -5,11 +5,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "cafe_tables")
-public class CafeTable implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class CafeTable extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String tableNumber;
@@ -24,8 +20,6 @@ public class CafeTable implements Serializable {
     }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
     public String getTableNumber() { return tableNumber; }
     public void setTableNumber(String tableNumber) { this.tableNumber = tableNumber; }
     public Boolean getIsOccupied() { return isOccupied; }

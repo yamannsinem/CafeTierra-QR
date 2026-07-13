@@ -1,29 +1,35 @@
 package facade;
 
 import entity.CafeTable;
-import facadeLocal.TableFacadeLocal;
+import facadelocal.TableFacadeLocal;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
 
 @Stateless
-public class TableFacade implements TableFacadeLocal {
+public class TableFacade extends AbstractFacade<CafeTable> implements TableFacadeLocal {
 
     @PersistenceContext(unitName = "CafePU")
     private EntityManager em;
 
+    public TableFacade() {
+        super(CafeTable.class);
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
     @Override
     public void createTable(CafeTable table) {
-        em.persist(table);
+        create(table);
     }
 
     @Override
     public void deleteTable(Long id) {
-        CafeTable table = em.find(CafeTable.class, id);
-        if (table != null) {
-            em.remove(table);
-        }
+        removeById(id);
     }
 
     @Override
@@ -33,6 +39,6 @@ public class TableFacade implements TableFacadeLocal {
 
     @Override
     public CafeTable findTableById(Long id) {
-        return em.find(CafeTable.class, id);
+        return find(id);
     }
 }

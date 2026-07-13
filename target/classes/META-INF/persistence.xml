@@ -5,7 +5,7 @@
     <persistence-unit name="CafePU" transaction-type="JTA">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <!-- GlassFish JNDI Name for the DataSource -->
-        <jta-data-source>java:app/jdbc/CafeDB</jta-data-source>
+        <jta-data-source>jdbc/CafeDB</jta-data-source>
         
         <class>entity.Category</class>
         <class>entity.MenuItem</class>
@@ -14,10 +14,11 @@
         <class>entity.CafeOrder</class>
         <class>entity.OrderItem</class>
         <class>entity.WaiterRequest</class>
+        <class>entity.CafeComment</class>
         
         <properties>
             <!-- Drop and create tables on deployment for development -->
-            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
             
             <!-- EclipseLink specific properties for logging -->
             <property name="eclipselink.logging.level" value="INFO"/>

@@ -1,4 +1,4 @@
-package facadeLocal;
+package facadelocal;
 
 import entity.Category;
 import entity.MenuItem;

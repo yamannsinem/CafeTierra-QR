@@ -6,11 +6,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "order_items")
-public class OrderItem implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class OrderItem extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
@@ -36,8 +32,6 @@ public class OrderItem implements Serializable {
     }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
     public CafeOrder getCafeOrder() { return cafeOrder; }
     public void setCafeOrder(CafeOrder cafeOrder) { this.cafeOrder = cafeOrder; }
     public MenuItem getMenuItem() { return menuItem; }

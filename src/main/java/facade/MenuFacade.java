@@ -2,17 +2,26 @@ package facade;
 
 import entity.Category;
 import entity.MenuItem;
-import facadeLocal.MenuFacadeLocal;
+import facadelocal.MenuFacadeLocal;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
 
 @Stateless
-public class MenuFacade implements MenuFacadeLocal {
+public class MenuFacade extends AbstractFacade<MenuItem> implements MenuFacadeLocal {
 
     @PersistenceContext(unitName = "CafePU")
     private EntityManager em;
+
+    public MenuFacade() {
+        super(MenuItem.class);
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 
     @Override
     public void createCategory(Category category) {
@@ -44,25 +53,22 @@ public class MenuFacade implements MenuFacadeLocal {
 
     @Override
     public void createMenuItem(MenuItem menuItem) {
-        em.persist(menuItem);
+        create(menuItem);
     }
 
     @Override
     public void updateMenuItem(MenuItem menuItem) {
-        em.merge(menuItem);
+        edit(menuItem);
     }
 
     @Override
     public void deleteMenuItem(Long id) {
-        MenuItem menuItem = em.find(MenuItem.class, id);
-        if (menuItem != null) {
-            em.remove(menuItem);
-        }
+        removeById(id);
     }
 
     @Override
     public MenuItem findMenuItemById(Long id) {
-        return em.find(MenuItem.class, id);
+        return find(id);
     }
 
     @Override

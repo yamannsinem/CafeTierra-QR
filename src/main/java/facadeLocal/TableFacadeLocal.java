@@ -1,4 +1,4 @@
-package facadeLocal;
+package facadelocal;
 
 import entity.CafeTable;
 import jakarta.ejb.Local;

@@ -1,14 +1,12 @@
 package bean;
 
 import entity.User;
-import facadeLocal.AuthFacadeLocal;
+import facadelocal.AuthFacadeLocal;
+import util.FacesUtil;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
-import java.io.IOException;
 import java.io.Serializable;
 
 @Named
@@ -22,34 +20,31 @@ public class LoginBean implements Serializable {
     private String password;
     private User currentUser;
 
-    @PostConstruct
-    public void init() {
-        authFacade.initDefaultAdmin(); // Create default admin if not exists
-    }
-
     public void login() {
-        User user = authFacade.login(username, password);
+        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            FacesUtil.addErrorMessage("Hata", "Kullanıcı adı ve şifre alanları boş bırakılamaz.");
+            return;
+        }
+        User user = authFacade.login(username.trim(), password);
         if (user != null) {
+            // Oturum Sabitleme (Session Fixation) Koruması: Oturum kimliğini yenile
+            jakarta.servlet.http.HttpServletRequest request = (jakarta.servlet.http.HttpServletRequest) 
+                jakarta.faces.context.FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            request.changeSessionId();
+
             currentUser = user;
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("admin.xhtml");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            jakarta.faces.context.FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", user);
+            FacesUtil.redirect("admin.xhtml");
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, 
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hata", "Kullanıcı adı veya şifre yanlış."));
+            FacesUtil.addErrorMessage("Hata", "Kullanıcı adı veya şifre yanlış.");
         }
     }
 
     public void logout() {
         currentUser = null;
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        jakarta.faces.context.FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("user");
+        FacesUtil.invalidateSession();
+        FacesUtil.redirect("login.xhtml");
     }
 
     public boolean isLoggedIn() {
@@ -58,11 +53,7 @@ public class LoginBean implements Serializable {
 
     public void checkLogin() {
         if (currentUser == null) {
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            FacesUtil.redirect("login.xhtml");
         }
     }
 

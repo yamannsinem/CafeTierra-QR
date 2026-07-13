@@ -5,464 +5,20 @@
       xmlns:ui="jakarta.faces.facelets"
       xmlns:p="jakarta.faces.passthrough"
       data-bs-theme="dark">
+<f:metadata>
+    <f:viewAction action="#{customerSessionBean.checkTable}" />
+</f:metadata>
 <h:head>
     <title>tierra - Dijital Menü</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <f:metadata>
-        <f:viewAction action="#{customerSessionBean.checkTable}" />
-    </f:metadata>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Outfit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
-    <style>
-        :root {
-            --primary-accent: #2E8B57; /* Vibrant SeaGreen */
-            --accent-coffee: #A67C52; /* Latte accent */
-            --primary-dark: #1E5C3A;
-            --bg-dark: #121413;
-            --surface-dark: #1A1F1C;
-            --surface-light: #242A27;
-            --text-beige: #EAE0D5;
-            --text-muted: #A3A3A3;
-            --white: #FFFFFF;
-        }
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--white);
-            background: linear-gradient(to bottom, #121413 0%, #1a1512 100%); /* Very subtle coffee tint */
-            background-attachment: fixed;
-            padding-bottom: 80px; /* For mobile scroll */
-        }
-        
-        /* Glassmorphism Navbar */
-        .navbar-glass {
-            background: rgba(30, 30, 30, 0.85) !important;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .brand-text { 
-            color: var(--primary-accent) !important; 
-            font-weight: 700; 
-            letter-spacing: 1px;
-            font-size: 1.5rem;
-        }
-        
-        /* Header Banner */
-        .hero-banner {
-            background: linear-gradient(rgba(30, 30, 30, 0.5), rgba(18, 20, 19, 0.9)), url('img/hero_tierra.png') center/cover no-repeat;
-            border-radius: 20px;
-            padding: 5rem 2rem;
-            margin-bottom: 3rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-            border: 1px solid rgba(166, 124, 82, 0.2);
-        }
-        /* Typography */
-        h1, h2, h3, h4, h5, h6 { color: var(--white); font-weight: 600; }
-        .text-accent { color: var(--primary-accent) !important; }
-        .text-beige { color: var(--text-beige) !important; }
-        
-        /* Menu Cards Premium Design */
-        .category-header {
-            display: flex;
-            align-items: center;
-            margin-top: 3rem;
-            margin-bottom: 1.5rem;
-        }
-        .category-header h3 { margin: 0; padding-right: 15px; color: var(--text-beige); }
-        .category-header .line {
-            flex-grow: 1;
-            height: 1px;
-            background: linear-gradient(90deg, rgba(234, 224, 213, 0.3) 0%, transparent 100%);
-        }
-        
-        .menu-card {
-            background-color: var(--surface-dark);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        .menu-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 4px; height: 100%;
-            background-color: var(--primary-accent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .menu-card:hover { 
-            transform: translateY(-5px); 
-            background-color: var(--surface-light);
-            box-shadow: 0 10px 30px rgba(58, 90, 64, 0.15);
-            border-color: rgba(58, 90, 64, 0.3);
-        }
-        .menu-card:hover::before { 
-            opacity: 1; 
-            background: linear-gradient(180deg, #3CB371, #20B2AA);
-        }
-        
-        .price-tag {
-            color: var(--white);
-            font-weight: 700;
-            font-size: 1.25rem;
-            background: rgba(58, 90, 64, 0.8);
-            padding: 5px 12px;
-            border-radius: 8px;
-        }
-        
-        /* Buttons */
-        .btn-accent {
-            background: linear-gradient(135deg, var(--primary-accent) 0%, #3CB371 100%);
-            color: var(--white) !important;
-            font-weight: 600;
-            border: none;
-            border-radius: 10px;
-            padding: 10px 20px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(58, 90, 64, 0.25);
-        }
-        .btn-accent:hover { 
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(58, 90, 64, 0.4);
-            background: linear-gradient(135deg, #3CB371 0%, var(--primary-accent) 100%);
-        }
-        .btn-outline-accent {
-            border: 1px solid rgba(58, 90, 64, 0.5);
-            color: var(--text-beige);
-            background: transparent;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-        .btn-outline-accent:hover { 
-            background-color: rgba(58, 90, 64, 0.15); 
-            color: var(--white); 
-            border-color: var(--primary-accent);
-        }
-        
-        /* Cart Offcanvas */
-        .cart-offcanvas {
-            background-color: rgba(30, 30, 30, 0.95) !important;
-            backdrop-filter: blur(15px);
-            border-left: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .offcanvas-header { border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .cart-item {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 10px;
-            transition: background 0.2s;
-        }
-        .cart-item:hover { background: rgba(255,255,255,0.04); }
-        .cart-total-section {
-            background: var(--surface-dark);
-            border-radius: 16px;
-            padding: 20px;
-            margin-top: 20px;
-            border: 1px solid rgba(58, 90, 64, 0.15);
-        }
-        
-        /* Alerts */
-        .messages { list-style: none; padding: 0; }
-        .messages li { 
-            padding: 15px 20px; 
-            border-radius: 12px; 
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            font-weight: 500;
-            animation: slideDown 0.3s ease-out forwards;
-        }
-        @keyframes slideDown {
-            from { transform: translateY(-20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        .messages li.info { background-color: rgba(58, 90, 64, 0.1); color: var(--text-beige); border: 1px solid rgba(58, 90, 64, 0.3); }
-        .messages li.error { background-color: rgba(220, 53, 69, 0.1); color: #ff6b6b; border: 1px solid rgba(220, 53, 69, 0.3); }
-        .messages li.warn { background-color: rgba(253, 126, 20, 0.1); color: #fd7e14; border: 1px solid rgba(253, 126, 20, 0.3); }
-        
-        /* Message Toast Position */
-        #globalMessagesWrapper {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            z-index: 9999;
-            max-width: 350px;
-        }
-        
-        /* Table Info Badge */
-        .table-badge {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            display: inline-flex;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-        .table-badge:hover {
-            background: rgba(46, 139, 87, 0.15);
-            border-color: var(--primary-accent);
-            color: var(--white);
-            transform: translateY(-1px);
-        }
-        .table-badge i { color: var(--primary-accent); margin-right: 6px; }
-        
-        /* Animated Background (Coffee Smoke) */
-        .bg-animation {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            z-index: -1;
-            overflow: hidden;
-            pointer-events: none;
-            background-image: radial-gradient(rgba(166, 124, 82, 0.05) 2px, transparent 2px);
-            background-size: 60px 60px;
-        }
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.6;
-            animation: float 25s infinite ease-in-out alternate;
-        }
-        .orb-1 {
-            width: 500px; height: 500px;
-            background: rgba(166, 124, 82, 0.15); /* Latte */
-            top: -100px; left: -100px;
-        }
-        .orb-2 {
-            width: 600px; height: 600px;
-            background: rgba(62, 39, 35, 0.2); /* Espresso */
-            bottom: -200px; right: -100px;
-            animation-delay: -5s;
-        }
-        .orb-3 {
-            width: 400px; height: 400px;
-            background: rgba(141, 110, 99, 0.12); /* Mocha */
-            top: 40%; left: 30%;
-            animation-delay: -10s;
-            animation-duration: 35s;
-        }
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(150px, 100px) scale(1.1); }
-            100% { transform: translate(-50px, 150px) scale(1.2); }
-        }
-
-        /* Floating Action Button for Waiter */
-        .fab-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1000;
-        }
-        @keyframes glow-pulse {
-            0% { box-shadow: 0 0 0 0 rgba(58, 90, 64, 0.5); }
-            70% { box-shadow: 0 0 0 15px rgba(58, 90, 64, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(58, 90, 64, 0); }
-        }
-        .fab-waiter {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary-accent) 0%, #3CB371 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5), 0 0 20px rgba(58, 90, 64, 0.4);
-            color: var(--white);
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            animation: glow-pulse 2s infinite;
-        }
-        .fab-waiter:hover {
-            transform: scale(1.1) translateY(-5px);
-            box-shadow: 0 15px 25px rgba(0,0,0,0.6), 0 0 30px rgba(58, 90, 64, 0.6);
-            color: var(--white);
-            animation: none;
-        }
-
-        /* Category Shortcut Cards */
-        .category-shortcut-card .card {
-            background-color: var(--surface-dark) !important;
-            border: 1px solid rgba(255,255,255,0.05) !important;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-        .category-shortcut-card:hover .card {
-            border-color: transparent !important;
-            transform: translateY(-8px);
-            box-shadow: 0 10px 25px rgba(58, 90, 64, 0.2);
-            background: linear-gradient(145deg, rgba(58, 90, 64, 0.2) 0%, rgba(88, 129, 87, 0.1) 100%) !important;
-        }
-        .category-shortcut-card:hover .card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 3px;
-            background: linear-gradient(90deg, var(--primary-accent), #3CB371);
-        }
-        .category-shortcut-card:hover .icon-holder i {
-            transform: scale(1.1);
-            color: var(--text-beige) !important;
-            filter: drop-shadow(0 0 5px rgba(234, 224, 213, 0.5));
-        }
-        .icon-holder i { transition: all 0.3s ease; color: var(--primary-accent); }
-        
-        /* Custom Scrollbar for horizontal list */
-        .scrollable-categories::-webkit-scrollbar { height: 6px; }
-        .scrollable-categories::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
-        .scrollable-categories::-webkit-scrollbar-thumb { background: rgba(58, 90, 64, 0.5); border-radius: 10px; }
-        .scrollable-categories::-webkit-scrollbar-thumb:hover { background: var(--primary-accent); }
-
-        /* Tierra Custom Footer */
-        .tierra-footer {
-            background-color: #f6ead6; /* Cream from palette */
-            color: #1b4340; /* Dark green from palette */
-            padding: 4rem 2rem 2rem;
-            margin-top: 5rem;
-            border-top: 1px solid rgba(199, 139, 88, 0.3);
-            position: relative;
-            z-index: 10;
-        }
-        .footer-logo {
-            font-family: 'Playfair Display', serif;
-            text-transform: lowercase;
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: #c78b58; /* Camel from palette */
-            line-height: 1;
-        }
-        .footer-tagline {
-            font-size: 0.8rem;
-            letter-spacing: 4px;
-            color: #1b4340;
-            padding-left: 5px;
-            margin-top: 5px;
-            font-family: 'Outfit', sans-serif;
-        }
-        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&amp;display=swap');
-        .signature {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2rem;
-            color: #c78b58;
-            margin-top: 0.5rem;
-        }
-        .footer-contact h5 {
-            color: #1b4340;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-        .footer-contact p {
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
-        }
-        .footer-social i {
-            font-size: 1.2rem;
-            color: #c78b58;
-            margin-right: 15px;
-            transition: color 0.3s;
-            cursor: pointer;
-        }
-        .footer-social i:hover {
-            color: #1b4340;
-        }
-        /* Order Status Banner */
-        .order-status-banner {
-            border-radius: 18px;
-            padding: 1.4rem 1.8rem;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            position: relative;
-            overflow: hidden;
-            animation: slideDown 0.4s ease-out;
-        }
-        .order-status-banner::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 18px;
-            opacity: 0.06;
-            background: currentColor;
-        }
-        .order-status-banner.status-pending {
-            background: rgba(166, 124, 82, 0.08);
-            border: 1px solid rgba(166, 124, 82, 0.35);
-            color: #d4a76a;
-        }
-        .order-status-banner.status-preparing {
-            background: rgba(14, 165, 233, 0.08);
-            border: 1px solid rgba(14, 165, 233, 0.35);
-            color: #38bdf8;
-        }
-        .order-status-banner.status-ready {
-            background: rgba(46, 139, 87, 0.1);
-            border: 1px solid rgba(46, 139, 87, 0.4);
-            color: #4ade80;
-        }
-        .order-status-banner.status-delivered {
-            background: rgba(100, 100, 100, 0.08);
-            border: 1px solid rgba(100, 100, 100, 0.2);
-            color: #aaa;
-        }
-        .status-icon-wrap {
-            width: 52px; height: 52px; flex-shrink: 0;
-            border-radius: 50%;
-            background: currentColor;
-            opacity: 1;
-            display: flex; align-items: center; justify-content: center;
-            position: relative;
-        }
-        .status-icon-wrap i {
-            font-size: 1.4rem;
-            color: var(--bg-dark);
-            position: relative; z-index: 1;
-        }
-        .status-icon-wrap.pulsing::after {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            border: 2px solid currentColor;
-            animation: statusPulse 1.8s infinite ease-out;
-        }
-        @keyframes statusPulse {
-            0%   { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.6); opacity: 0; }
-        }
-        .status-text-area { flex: 1; }
-        .status-text-area h5 { margin: 0 0 4px; font-size: 1rem; font-weight: 700; color: inherit; }
-        .status-text-area p  { margin: 0; font-size: 0.85rem; color: #888; }
-        .status-step-dots {
-            display: flex; gap: 6px; align-items: center; margin-top: 10px;
-        }
-        .step-dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: rgba(255,255,255,0.12);
-            transition: all 0.4s;
-        }
-        .step-dot.active   { background: currentColor; box-shadow: 0 0 6px currentColor; }
-        .step-dot.done     { background: currentColor; opacity: 0.5; }
-    
-    </style>
-
+    <link rel="stylesheet" href="resources/css/index.css" />
 </h:head>
 <h:body>
 
@@ -481,24 +37,32 @@
             </a>
             
             <div class="d-flex align-items-center ms-auto">
+                <!-- Language Toggle Button -->
+                <h:form id="langForm" style="display: inline;" class="me-3">
+                    <h:commandLink action="#{languageBean.toggleLanguage}" styleClass="btn btn-sm d-flex align-items-center" style="border-radius: 20px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #EAE0D5; padding: 6px 12px; font-weight: 500; font-size: 0.85rem; text-decoration: none;">
+                        <i class="bi bi-globe me-2" style="color: var(--accent-coffee);"></i>
+                        #{languageBean.language == 'TR' ? 'EN' : 'TR'}
+                    </h:commandLink>
+                </h:form>
+
                 <a href="login.xhtml" class="btn btn-sm d-flex align-items-center me-3" style="background: linear-gradient(135deg, var(--accent-coffee) 0%, #8D6E63 100%); border: none; color: #FFFFFF; border-radius: 20px; transition: all 0.3s; box-shadow: 0 4px 10px rgba(166, 124, 82, 0.3);">
-                    <i class="bi bi-person-fill-lock me-2"></i> Admin Girişi
+                    <i class="bi bi-person-fill-lock me-2"></i> #{languageBean.tr('Admin Girişi', 'Admin Login')}
                 </a>
                 
                 <h:form style="display: inline;">
                     <h:commandLink action="#{customerSessionBean.resetTable}" styleClass="table-badge me-3 d-none d-sm-inline-flex text-decoration-none border-hover" style="cursor: pointer;">
                         <i class="bi bi-geo-alt-fill"></i> 
-                        #{customerSessionBean.currentTable != null ? customerSessionBean.currentTable.tableNumber : 'Masa Seçilmedi'}
-                        <span class="ms-2 badge bg-secondary opacity-50" style="font-size: 0.6rem;">Değiştir</span>
+                        #{customerSessionBean.currentTable != null ? customerSessionBean.currentTable.tableNumber : languageBean.tr('Masa Seçilmedi', 'No Table')}
+                        <span class="ms-2 badge bg-secondary opacity-50" style="font-size: 0.6rem;">#{languageBean.tr('Değiştir', 'Change')}</span>
                     </h:commandLink>
                 </h:form>
                 
                 <button class="btn btn-accent position-relative d-flex align-items-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
-                    <i class="bi bi-bag-fill me-2"></i> Sepet
+                    <i class="bi bi-bag-fill me-2"></i> #{languageBean.tr('Sepet', 'Cart')}
                     <h:panelGroup id="cartBadge" layout="block" style="display:inline;">
-                        <h:panelGroup rendered="#{customerSessionBean.cartItemCount gt 0}">
+                        <h:panelGroup rendered="#{cartBean.cartItemCount gt 0}">
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-dark">
-                                #{customerSessionBean.cartItemCount}
+                                #{cartBean.cartItemCount}
                             </span>
                         </h:panelGroup>
                     </h:panelGroup>
@@ -514,6 +78,19 @@
             <h:messages globalOnly="true" id="globalMessages" styleClass="messages" infoClass="info" errorClass="error" warnClass="warn" />
         </h:panelGroup>
 
+        <!-- Masa Dolu/Ortak Sipariş Bilgilendirme -->
+        <h:panelGroup rendered="#{!customerSessionBean.hasActiveOrder and customerSessionBean.isTableOccupied(customerSessionBean.tableId)}" layout="block">
+            <div class="alert alert-warning d-flex align-items-center mb-4 border-warning bg-warning-subtle" role="alert" style="border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 193, 7, 0.3); background-color: rgba(255, 193, 7, 0.1);">
+                <i class="bi bi-info-circle-fill me-3 text-warning" style="font-size: 1.5rem;"></i>
+                <div>
+                    <h6 class="alert-heading mb-1 text-warning fw-bold">#{languageBean.tr('Masa Aktif Durumda (Dolu)', 'Table Active (Occupied)')}</h6>
+                    <p class="mb-0 text-secondary" style="font-size: 0.9rem; color: var(--text-muted) !important;">
+                        #{languageBean.tr('Bu masada şu an aktif bir hesap bulunmaktadır. Vereceğiniz yeni siparişler mevcut masa hesabına eklenecektir.', 'There is currently an active tab at this table. Any new orders you place will be added to the existing table account.')}
+                    </p>
+                </div>
+            </div>
+        </h:panelGroup>
+
         <!-- Aktif Sipariş Durum Banner -->
         <h:panelGroup id="orderStatusBanner" layout="block">
             <h:panelGroup rendered="#{customerSessionBean.hasActiveOrder}" layout="block">
@@ -525,8 +102,8 @@
                             <i class="bi bi-hourglass-split"></i>
                         </div>
                         <div class="status-text-area">
-                            <h5>Siparişiniz Alındı</h5>
-                            <p>Mutfak ekibimiz en kısa sürede hazırlamaya başlayacak.</p>
+                            <h5>#{languageBean.tr('Siparişiniz Alındı', 'Order Received')}</h5>
+                            <p>#{languageBean.tr('Mutfak ekibimiz en kısa sürede hazırlamaya başlayacak.', 'Our kitchen team will start preparing your order shortly.')}</p>
                             <div class="status-step-dots">
                                 <div class="step-dot active"></div>
                                 <div class="step-dot"></div>
@@ -545,8 +122,8 @@
                             <i class="bi bi-fire"></i>
                         </div>
                         <div class="status-text-area">
-                            <h5>Hazırlanıyor...</h5>
-                            <p>Siparişiniz mutfakta hazırlanıyor, biraz bekleyin.</p>
+                            <h5>#{languageBean.tr('Hazırlanıyor...', 'Preparing...')}</h5>
+                            <p>#{languageBean.tr('Siparişiniz mutfakta hazırlanıyor, biraz bekleyin.', 'Your order is currently being prepared in the kitchen, please wait.')}</p>
                             <div class="status-step-dots">
                                 <div class="step-dot done"></div>
                                 <div class="step-dot active"></div>
@@ -565,8 +142,8 @@
                             <i class="bi bi-check-circle-fill"></i>
                         </div>
                         <div class="status-text-area">
-                            <h5>Siparişiniz Hazır!</h5>
-                            <p>Garsonumuz en kısa sürede masanıza getirecek.</p>
+                            <h5>#{languageBean.tr('Siparişiniz Hazır!', 'Order Ready!')}</h5>
+                            <p>#{languageBean.tr('Garsonumuz en kısa sürede masanıza getirecek.', 'Our waiter will serve it to your table shortly.')}</p>
                             <div class="status-step-dots">
                                 <div class="step-dot done"></div>
                                 <div class="step-dot done"></div>
@@ -585,8 +162,8 @@
                             <i class="bi bi-bag-heart-fill"></i>
                         </div>
                         <div class="status-text-area">
-                            <h5>Afiyet Olsun!</h5>
-                            <p>Siparişiniz teslim edildi. Keyifli bir deneyim dileriz.</p>
+                            <h5>#{languageBean.tr('Afiyet Olsun!', 'Enjoy Your Meal!')}</h5>
+                            <p>#{languageBean.tr('Siparişiniz teslim edildi. Keyifli bir deneyim dileriz.', 'Your order has been delivered. We hope you enjoy it.')}</p>
                             <div class="status-step-dots">
                                 <div class="step-dot done"></div>
                                 <div class="step-dot done"></div>
@@ -611,34 +188,73 @@
 
         <!-- Welcome Banner -->
         <div class="hero-banner text-center">
-            <h1 class="display-5 fw-bold mb-3 text-beige" style="position:relative; z-index:1;">Menümüze Hoş Geldiniz</h1>
+            <h1 class="display-5 fw-bold mb-3 text-beige" style="position:relative; z-index:1;">#{languageBean.tr('Menümüze Hoş Geldiniz', 'Welcome to Our Menu')}</h1>
             <p class="lead text-muted mx-auto" style="max-width: 600px; position:relative; z-index:1;">
-                Özenle hazırladığımız lezzetleri inceleyin, siparişinizi hemen masanızdan verin. Sizin için buradayız.
+                #{languageBean.tr('Özenle hazırladığımız lezzetleri inceleyin, siparişinizi hemen masanızdan verin. Sizin için buradayız.', 'Explore our carefully prepared menu selections and place your order directly from your table. We are here for you.')}
             </p>
             <h:panelGroup rendered="#{customerSessionBean.currentTable == null}">
                 <div class="alert alert-warning d-inline-block mt-3 border-warning bg-transparent text-warning" style="position:relative; z-index:1;">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>Sipariş verebilmek için lütfen masadaki QR kodu okutun.
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i> #{languageBean.tr('Sipariş verebilmek için lütfen masadaki QR kodu okutun.', 'Please scan the QR code on your table to place an order.')}
                 </div>
             </h:panelGroup>
         </div>
 
-        <h:panelGroup rendered="#{empty customerSessionBean.categories}" layout="block" class="text-center py-5">
+        <h:panelGroup rendered="#{empty menuCacheBean.categories}" layout="block" class="text-center py-5">
             <i class="bi bi-cup-straw" style="font-size: 4rem; color: #555;"></i>
-            <h3 class="mt-3 text-secondary">Menü Hazırlanıyor...</h3>
+            <h3 class="mt-3 text-secondary">#{languageBean.tr('Menü Hazırlanıyor...', 'Preparing Menu...')}</h3>
         </h:panelGroup>
 
+        <!-- Weekly Featured / Popular Items Section -->
+        <h:form id="featuredForm">
+            <h:panelGroup rendered="#{not empty menuCacheBean.popularItems}" layout="block" class="mb-5">
+                <div class="featured-section p-4" style="background: rgba(27, 20, 15, 0.45); backdrop-filter: blur(10px); border: 1px solid rgba(166, 124, 82, 0.15); border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="icon-holder-featured me-3" style="background: linear-gradient(135deg, var(--accent-coffee) 0%, #8D6E63 100%); width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(166, 124, 82, 0.25);">
+                            <i class="bi bi-fire text-white fs-4"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-0 text-beige fw-bold" style="font-family: 'Playfair Display', serif;">#{languageBean.tr('Haftanın Yıldızları', 'Weekly Featured')}</h4>
+                            <span class="text-muted small">#{languageBean.tr('En çok tercih edilen lezzetlerimizi deneyin', 'Explore our most popular customer favorites')}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-4 overflow-auto py-2 flex-nowrap scrollable-categories" style="scrollbar-width: thin; scrollbar-color: var(--accent-coffee) rgba(255,255,255,0.05);">
+                        <ui:repeat value="#{menuCacheBean.popularItems}" var="popItem">
+                            <div class="col-10 col-sm-6 col-md-4 flex-shrink-0">
+                                <div class="menu-card-featured p-4 d-flex flex-column h-100" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; transition: all 0.3s; position: relative; overflow: hidden;">
+                                    <div class="popular-badge" style="position: absolute; top: 12px; right: 12px; background: linear-gradient(135deg, #FF8F00 0%, #FF6F00 100%); color: white; padding: 3px 8px; border-radius: 20px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(255, 111, 0, 0.3);">
+                                        #{languageBean.tr('Yıldız', 'Star')}
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-start mb-3 pt-2">
+                                        <h5 class="mb-0 fs-5 text-white fw-bold">#{languageBean.getItemName(popItem)}</h5>
+                                        <span class="text-accent fw-bold fs-5">#{popItem.price} ₺</span>
+                                    </div>
+                                    <p class="text-muted small mb-4 flex-grow-1" style="line-height: 1.5; font-size: 0.85rem;">#{languageBean.getItemDescription(popItem)}</p>
+                                    
+                                    <h:commandLink action="#{cartBean.addToCart(popItem)}" styleClass="btn btn-accent-sm w-100 py-2 text-center text-white text-decoration-none" style="border-radius: 12px; border: none; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: block;">
+                                        <i class="bi bi-plus-lg me-2"></i>#{languageBean.tr('Sepete Ekle', 'Add to Cart')}
+                                        <f:ajax execute="@form" render=":cartBadge :cartContent :globalMessagesWrapper" />
+                                    </h:commandLink>
+                                </div>
+                            </div>
+                        </ui:repeat>
+                    </div>
+                </div>
+            </h:panelGroup>
+        </h:form>
+
         <!-- Category Shortcut Cards -->
-        <h:panelGroup rendered="#{not empty customerSessionBean.categories}">
+        <h:panelGroup rendered="#{not empty menuCacheBean.categories}">
             <div class="mb-5">
-                <h4 class="mb-3 text-beige" style="font-weight: 500;">Menüde Gezin</h4>
+                <h4 class="mb-3 text-beige" style="font-weight: 500;">#{languageBean.tr('Menüde Gezin', 'Browse Menu')}</h4>
                 <div class="d-flex overflow-auto pb-3 gap-3 scrollable-categories" style="scrollbar-width: thin; scrollbar-color: var(--primary-accent) rgba(255,255,255,0.05);">
-                    <ui:repeat value="#{customerSessionBean.categories}" var="cat">
+                    <ui:repeat value="#{menuCacheBean.categories}" var="cat">
                         <a href="#category-#{cat.id}" class="category-shortcut-card text-decoration-none flex-shrink-0">
                             <div class="card text-center p-3 h-100" style="width: 130px; border-radius: 16px;">
                                 <div class="icon-holder mb-2">
                                     <i class="bi bi-bookmark-star-fill fs-3"></i>
                                 </div>
-                                <span class="text-white fw-bold small d-block">#{cat.name}</span>
+                                <span class="text-white fw-bold small d-block">#{languageBean.getCategoryName(cat)}</span>
                             </div>
                         </a>
                     </ui:repeat>
@@ -646,29 +262,30 @@
             </div>
         </h:panelGroup>
 
+        <!-- Menu Categories & Items List -->
         <h:form id="menuForm">
-            <ui:repeat value="#{customerSessionBean.categories}" var="cat">
+            <ui:repeat value="#{menuCacheBean.categories}" var="cat">
                 
                 <h:panelGroup>
                     <div class="category-header" id="category-#{cat.id}" style="scroll-margin-top: 100px;">
-                        <h3 class="text-beige">#{cat.name}</h3>
+                        <h3 class="text-beige">#{languageBean.getCategoryName(cat)}</h3>
                         <div class="line"></div>
                     </div>
                     
                     <div class="row g-4 mb-5">
-                        <ui:repeat value="#{customerSessionBean.availableItems}" var="item">
+                        <ui:repeat value="#{menuCacheBean.availableItems}" var="item">
                             <h:panelGroup rendered="#{item.category.id == cat.id}">
                                 <div class="col-md-6 col-lg-4">
                                     <div class="menu-card p-4 h-100 d-flex flex-column">
                                         <div class="d-flex justify-content-between align-items-start mb-3">
-                                            <h4 class="mb-0 fs-5 text-white">#{item.name}</h4>
+                                            <h4 class="mb-0 fs-5 text-white">#{languageBean.getItemName(item)}</h4>
                                             <span class="price-tag">#{item.price} ₺</span>
                                         </div>
-                                        <p class="text-muted small mb-4 flex-grow-1 lh-lg">#{item.description}</p>
+                                        <p class="text-muted small mb-4 flex-grow-1 lh-lg">#{languageBean.getItemDescription(item)}</p>
                                         
-                                        <h:commandLink action="#{customerSessionBean.addToCart(item)}" styleClass="btn btn-outline-accent w-100 py-2">
-                                            <i class="bi bi-plus-lg me-2"></i>Sepete Ekle
-                                            <f:ajax execute="@form" render=":cartBadge :cartContent :globalMessagesWrapper" />
+                                        <h:commandLink action="#{cartBean.addToCart(item)}" styleClass="btn btn-outline-accent w-100 py-2 text-decoration-none text-center">
+                                            <i class="bi bi-plus-lg me-2"></i>#{languageBean.tr('Sepete Ekle', 'Add to Cart')}
+                                            <f:ajax execute="@form" render=":cartBadge :cartContent :globalMessagesWrapper :featuredForm" />
                                         </h:commandLink>
                                     </div>
                                 </div>
@@ -679,13 +296,83 @@
                 
             </ui:repeat>
         </h:form>
-    </div>
 
+        <!-- Comments / Reviews Section -->
+        <div class="comments-section mt-5 mb-5 p-4 p-md-5" style="background: rgba(27, 20, 15, 0.45); backdrop-filter: blur(10px); border: 1px solid rgba(166, 124, 82, 0.15); border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
+            <div class="row">
+                <div class="col-lg-5 mb-4 mb-lg-0">
+                    <h3 class="text-beige fw-bold mb-3" style="font-family: 'Playfair Display', serif;">#{languageBean.tr('Düşüncelerinizi Paylaşın', 'Share Your Thoughts')}</h3>
+                    <p class="text-muted small mb-4">#{languageBean.tr('Deneyiminizi paylaşarak menümüzü geliştirmemize yardımcı olun. Yorumlarınız bizim için çok değerlidir.', 'Help us improve by sharing your experience. Your feedback is highly appreciated.')}</p>
+                    
+                    <h:form id="commentForm">
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">#{languageBean.tr('Adınız veya Rumuz', 'Your Name / Nickname')}</label>
+                            <h:inputText value="#{commentBean.author}" styleClass="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #EAE0D5; border-radius: 12px; padding: 12px;" p:placeholder="#{languageBean.tr('Adınızı yazın...', 'Enter your name...')}" required="true" requiredMessage="#{languageBean.tr('Lütfen adınızı giriniz.', 'Please enter your name.')}" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">#{languageBean.tr('Puanınız', 'Your Rating')}</label>
+                            <h:selectOneMenu value="#{commentBean.rating}" styleClass="form-select text-beige" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #EAE0D5; border-radius: 12px; padding: 12px;">
+                                <f:selectItem itemLabel="#{languageBean.tr('5 Yıldız (Mükemmel)', '5 Stars (Excellent)')}" itemValue="5" />
+                                <f:selectItem itemLabel="#{languageBean.tr('4 Yıldız (Çok İyi)', '4 Stars (Very Good)')}" itemValue="4" />
+                                <f:selectItem itemLabel="#{languageBean.tr('3 Yıldız (Ortalama)', '3 Stars (Average)')}" itemValue="3" />
+                                <f:selectItem itemLabel="#{languageBean.tr('2 Yıldız (Kötü)', '2 Stars (Poor)')}" itemValue="2" />
+                                <f:selectItem itemLabel="#{languageBean.tr('1 Yıldız (Çok Kötü)', '1 Star (Very Poor)')}" itemValue="1" />
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-muted small">#{languageBean.tr('Yorumunuz', 'Your Review')}</label>
+                            <h:inputTextarea value="#{commentBean.commentText}" styleClass="form-control" rows="4" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #EAE0D5; border-radius: 12px; padding: 12px;" p:placeholder="#{languageBean.tr('Kafemizle ilgili yorumlarınızı yazın...', 'Write your comments about our cafe...')}" required="true" requiredMessage="#{languageBean.tr('Lütfen yorumunuzu yazınız.', 'Please write your comment.')}" />
+                        </div>
+                        <h:commandButton value="#{languageBean.tr('Yorumu Gönder', 'Submit Review')}" action="#{commentBean.submitComment}" styleClass="btn btn-accent w-100 py-3" style="border: none; border-radius: 12px; cursor: pointer; font-weight: 600;">
+                            <f:ajax execute="@form" render="commentForm :commentsListWrapper :globalMessagesWrapper" />
+                        </h:commandButton>
+                    </h:form>
+                </div>
+                
+                <div class="col-lg-7">
+                    <h3 class="text-beige fw-bold mb-4 ps-lg-4" style="font-family: 'Playfair Display', serif;">#{languageBean.tr('Müşteri Değerlendirmeleri', 'Guest Reviews')}</h3>
+                    <h:panelGroup id="commentsListWrapper" layout="block" class="ps-lg-4" style="max-height: 480px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--accent-coffee) rgba(255,255,255,0.05);">
+                        <h:panelGroup rendered="#{empty commentBean.comments}" layout="block" class="text-center py-5">
+                            <i class="bi bi-chat-left-dots text-muted fs-1 mb-3"></i>
+                            <p class="text-muted">#{languageBean.tr('Henüz yorum yapılmamış. İlk yorumu siz yapın!', 'No reviews yet. Be the first to leave one!')}</p>
+                        </h:panelGroup>
+                        
+                        <ui:repeat value="#{commentBean.comments}" var="comment">
+                            <div class="comment-card mb-3 p-3" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px;">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="text-white mb-0 fw-bold">#{comment.author}</h6>
+                                    <small class="text-muted" style="font-size: 0.75rem;">
+                                        <h:outputText value="#{comment.createdAt}">
+                                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" timeZone="GMT+3" />
+                                        </h:outputText>
+                                    </small>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="text-warning small">
+                                        <h:panelGroup rendered="#{comment.rating >= 1}"><i class="bi bi-star-fill me-1"></i></h:panelGroup>
+                                        <h:panelGroup rendered="#{comment.rating >= 2}"><i class="bi bi-star-fill me-1"></i></h:panelGroup>
+                                        <h:panelGroup rendered="#{comment.rating >= 3}"><i class="bi bi-star-fill me-1"></i></h:panelGroup>
+                                        <h:panelGroup rendered="#{comment.rating >= 4}"><i class="bi bi-star-fill me-1"></i></h:panelGroup>
+                                        <h:panelGroup rendered="#{comment.rating >= 5}"><i class="bi bi-star-fill me-1"></i></h:panelGroup>
+                                        <h:panelGroup rendered="#{comment.rating lt 2}"><i class="bi bi-star me-1"></i></h:panelGroup>
+                                        <h:panelGroup rendered="#{comment.rating lt 3}"><i class="bi bi-star me-1"></i></h:panelGroup>
+                                        <h:panelGroup rendered="#{comment.rating lt 4}"><i class="bi bi-star me-1"></i></h:panelGroup>
+                                        <h:panelGroup rendered="#{comment.rating lt 5}"><i class="bi bi-star me-1"></i></h:panelGroup>
+                                    </span>
+                                </div>
+                                <p class="text-secondary small mb-0 lh-base" style="color: #b5a89d !important;">#{comment.commentText}</p>
+                            </div>
+                        </ui:repeat>
+                    </h:panelGroup>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Floating Action Button for Waiter -->
     <div class="fab-container">
         <h:form>
-            <h:commandLink action="#{customerSessionBean.callWaiter}" styleClass="fab-waiter text-decoration-none" title="Garson Çağır">
+            <h:commandLink action="#{customerSessionBean.callWaiter}" styleClass="fab-waiter text-decoration-none" title="#{languageBean.tr('Garson Çağır', 'Call Waiter')}">
                 <i class="bi bi-bell-fill"></i>
                 <f:ajax render=":globalMessagesWrapper" />
             </h:commandLink>
@@ -695,28 +382,28 @@
     <!-- Cart Offcanvas -->
     <div class="offcanvas offcanvas-end cart-offcanvas" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title text-beige" id="cartOffcanvasLabel"><i class="bi bi-bag-fill me-2"></i>Sepetiniz</h5>
+            <h5 class="offcanvas-title text-beige" id="cartOffcanvasLabel"><i class="bi bi-bag-fill me-2"></i>#{languageBean.tr('Sepetiniz', 'Your Cart')}</h5>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
             <h:form id="cartContent">
-                <h:panelGroup rendered="#{empty customerSessionBean.cartItems}" layout="block" class="text-center py-5">
+                <h:panelGroup rendered="#{empty cartBean.cartItems}" layout="block" class="text-center py-5">
                     <i class="bi bi-cart-x text-muted" style="font-size: 3rem;"></i>
-                    <p class="text-muted mt-3">Sepetiniz şu an boş.</p>
+                    <p class="text-muted mt-3">#{languageBean.tr('Sepetiniz şu an boş.', 'Your cart is currently empty.')}</p>
                 </h:panelGroup>
 
-                <h:panelGroup rendered="#{not empty customerSessionBean.cartItems}">
-                    <ui:repeat value="#{customerSessionBean.cartItems}" var="cartItem">
+                <h:panelGroup rendered="#{not empty cartBean.cartItems}">
+                    <ui:repeat value="#{cartBean.cartItems}" var="cartItem">
                         <div class="cart-item d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="text-white mb-1">#{cartItem.menuItem.name}</h6>
+                                <h6 class="text-white mb-1">#{languageBean.getItemName(cartItem.menuItem)}</h6>
                                 <span class="text-muted small">#{cartItem.menuItem.price} ₺ x #{cartItem.quantity}</span>
                             </div>
                             <div class="d-flex align-items-center">
                                 <span class="text-accent fw-bold me-3">#{cartItem.totalPrice} ₺</span>
-                                <h:commandLink action="#{customerSessionBean.removeFromCart(cartItem.menuItem)}" styleClass="text-danger">
+                                <h:commandLink action="#{cartBean.removeFromCart(cartItem.menuItem)}" styleClass="text-danger">
                                     <i class="bi bi-trash-fill"></i>
-                                    <f:ajax execute="@form" render=":cartBadge :cartContent :globalMessagesWrapper" />
+                                    <f:ajax execute="@form" render=":cartBadge :cartContent :globalMessagesWrapper :featuredForm" />
                                 </h:commandLink>
                             </div>
                         </div>
@@ -724,10 +411,10 @@
 
                     <div class="cart-total-section">
                         <div class="d-flex justify-content-between mb-3">
-                            <span class="text-muted">Ara Toplam:</span>
-                            <span class="text-white fw-bold">#{customerSessionBean.cartTotal} ₺</span>
+                            <span class="text-muted">#{languageBean.tr('Ara Toplam:', 'Subtotal:')}</span>
+                            <span class="text-white fw-bold">#{cartBean.cartTotal} ₺</span>
                         </div>
-                        <h:commandButton action="#{customerSessionBean.checkout}" styleClass="btn btn-accent w-100 py-3" style="font-size: 1.1rem; border: none; cursor: pointer;" value="Siparişi Tamamla" />
+                        <h:commandButton action="#{cartBean.checkout}" styleClass="btn btn-accent w-100 py-3" style="font-size: 1.1rem; border: none; cursor: pointer;" value="#{languageBean.tr('Siparişi Tamamla', 'Complete Order')}" />
                     </div>
                 </h:panelGroup>
             </h:form>
@@ -742,11 +429,11 @@
                     <div class="footer-logo">tierra</div>
                     <div class="footer-tagline">A LA MESA</div>
                     <p class="mt-4" style="color: #1b4340; opacity: 0.8; max-width: 300px;">
-                        Doğadan masanıza uzanan premium kahve deneyimi. Özenle seçilmiş İspanyol çekirdekleri ve benzersiz Malatya atmosferimizle hizmetinizdeyiz.
+                        #{languageBean.tr('Doğadan masanıza uzanan premium kahve deneyimi. Özenle seçilmiş İspanyol çekirdekleri ve benzersiz Malatya atmosferimizle hizmetinizdeyiz.', 'Premium coffee experience from nature to your table. We are at your service with handpicked Spanish beans and our unique atmosphere.')}
                     </p>
                 </div>
                 <div class="col-md-4 mb-4 mb-md-0 footer-contact">
-                    <h5>İletişim</h5>
+                    <h5>#{languageBean.tr('İletişim', 'Contact')}</h5>
                     <p><i class="bi bi-geo-alt-fill me-2" style="color: #c78b58;"></i> Kahve Sokak No: 12, Yeşilyurt / Malatya</p>
                     <p><i class="bi bi-telephone-fill me-2" style="color: #c78b58;"></i> +90 555 444 44 44</p>
                     <p><i class="bi bi-envelope-fill me-2" style="color: #c78b58;"></i> malatya44@tierracafe.com</p>
@@ -765,7 +452,7 @@
             </div>
             <div class="row border-top pt-3 mt-3" style="border-color: rgba(27, 67, 64, 0.1) !important;">
                 <div class="col-12 text-center" style="font-size: 0.85rem; color: #1b4340; opacity: 0.7;">
-                    &#169; 2026 tierra A LA MESA. Tüm Hakları Saklıdır.
+                    &#169; 2026 tierra A LA MESA. #{languageBean.tr('Tüm Hakları Saklıdır.', 'All Rights Reserved.')}
                 </div>
             </div>
         </div>
@@ -773,27 +460,6 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function closeCart(data) {
-            if (data.status === 'success') {
-                var offcanvasElement = document.getElementById('cartOffcanvas');
-                var offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
-                if(offcanvas) { offcanvas.hide(); }
-                window.scrollTo({top: 0, behavior: 'smooth'});
-            }
-        }
-        // Siparis durumu otomatik yenileme (her 15 saniyede bir)
-        (function startOrderPolling() {
-            var pollInterval = setInterval(function() {
-                var banner = document.getElementById('orderStatusBanner');
-                if (banner) {
-                    var delivered = banner.querySelector('.status-delivered');
-                    if (delivered) { clearInterval(pollInterval); return; }
-                    var btn = document.querySelector('[id*="refreshBtn"]');
-                    if (btn) { btn.click(); }
-                }
-            }, 15000);
-        })();
-    </script>
+    <h:outputScript library="js" name="index.js" />
 </h:body>
 </html>

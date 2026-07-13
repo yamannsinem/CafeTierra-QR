@@ -3,118 +3,48 @@
       xmlns:h="jakarta.faces.html"
       xmlns:f="jakarta.faces.core"
       xmlns:p="jakarta.faces.passthrough">
+<f:metadata>
+    <f:viewAction action="#{customerSessionBean.redirectToRandomFreeTable}" />
+</f:metadata>
 <h:head>
-    <title>tierra - Hoş Geldiniz</title>
+    <title>tierra - #{languageBean.tr('Hoş Geldiniz', 'Welcome')}</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Outfit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-    <style>
-        :root {
-            --primary-accent: #2E8B57; /* SeaGreen */
-            --accent-coffee: #A67C52; /* Latte accent */
-            --bg-dark: #121413;
-            --surface-dark: #1A1F1C;
-            --text-beige: #EAE0D5;
-            --text-muted: #A3A3A3;
-            --white: #FFFFFF;
-        }
-        body {
-            font-family: 'Outfit', sans-serif;
-            color: var(--white);
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(rgba(18, 20, 19, 0.7), rgba(44, 30, 22, 0.9)), url('img/dark_beans.png') no-repeat center center fixed;
-            background-size: cover;
-        }
-        .splash-card {
-            background-color: var(--surface-dark);
-            border: 1px solid rgba(166, 124, 82, 0.2); /* Coffee border */
-            border-radius: 20px;
-            padding: 3rem;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            position: relative;
-            overflow: hidden;
-        }
-        .splash-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 5px;
-            background: linear-gradient(90deg, var(--primary-accent), var(--accent-coffee));
-        }
-        .btn-accent {
-            background: linear-gradient(135deg, var(--primary-accent) 0%, #20B2AA 100%);
-            color: var(--white);
-            font-weight: 600;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            transition: all 0.3s;
-        }
-        .btn-accent:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(46, 139, 87, 0.4);
-            color: var(--white);
-        }
-        .form-select {
-            background-color: rgba(0,0,0,0.3);
-            border: 1px solid rgba(166, 124, 82, 0.3);
-            color: var(--white);
-            padding: 12px;
-        }
-        .form-select option {
-            background-color: #121413;
-            color: #FFFFFF;
-        }
-        .form-select:focus {
-            background-color: rgba(0,0,0,0.5);
-            border-color: var(--accent-coffee);
-            color: var(--white);
-            box-shadow: 0 0 0 0.25rem rgba(166, 124, 82, 0.25);
-        }
-        .splash-logo {
-            font-size: 4rem;
-            color: var(--accent-coffee);
-            margin-bottom: 1rem;
-            display: inline-block;
-        }
-        .splash-title {
-            color: var(--text-beige);
-            font-weight: 700;
-            letter-spacing: 2px;
-        }
-        .splash-slogan {
-            color: var(--text-muted);
-            font-weight: 300;
-            margin-bottom: 2.5rem;
-        }
-    </style>
+    <link rel="stylesheet" href="resources/css/welcome.css" />
 </h:head>
 <h:body>
-    <div class="splash-card">
+    <div class="splash-card position-relative">
+        <!-- Float Language Toggle inside Card -->
+        <div class="position-absolute top-0 end-0 m-3">
+            <h:form id="langForm" style="display: inline;">
+                <h:commandLink action="#{languageBean.toggleLanguage}" styleClass="btn btn-sm d-flex align-items-center" style="border-radius: 20px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #EAE0D5; padding: 4px 10px; font-weight: 500; font-size: 0.8rem; text-decoration: none;">
+                    <i class="bi bi-globe me-1" style="color: var(--accent-coffee);"></i>
+                    #{languageBean.language == 'TR' ? 'EN' : 'TR'}
+                </h:commandLink>
+            </h:form>
+        </div>
+
         <i class="bi bi-cup-hot splash-logo"></i>
-        <h2 class="splash-title" style="font-family: 'Playfair Display', serif; text-transform: lowercase; font-size: 3rem;">tierra</h2><div style="font-size: 0.8rem; letter-spacing: 4px; color: #A67C52; margin-bottom: 20px;">A LA MESA</div>
-        <p class="splash-slogan">Lezzet ve kalitenin buluşma noktası...</p>
+        <h2 class="splash-title" style="font-family: 'Playfair Display', serif; text-transform: lowercase; font-size: 3rem;">tierra</h2>
+        <div style="font-size: 0.8rem; letter-spacing: 4px; color: #A67C52; margin-bottom: 20px;">A LA MESA</div>
+        <p class="splash-slogan">#{languageBean.tr('Lezzet ve kalitenin buluşma noktası...', 'Where taste meets quality...')}</p>
         
         <h:form id="tableForm">
             <h:messages globalOnly="false" styleClass="messages list-unstyled mb-3" errorClass="alert alert-danger" warnClass="alert alert-warning" infoClass="alert alert-info" />
             
-            <p class="text-secondary mb-4" style="color: var(--text-muted) !important;">Sipariş verebilmek için lütfen oturduğunuz masayı seçiniz.</p>
+            <p class="text-secondary mb-4" style="color: var(--text-muted) !important;">#{languageBean.tr('Sipariş verebilmek için lütfen oturduğunuz masayı seçiniz.', 'Please select your table to place an order.')}</p>
             
             <div class="mb-4">
-                <h:selectOneMenu value="#{customerSessionBean.selectedTableId}" styleClass="form-select text-center" required="true" requiredMessage="Lütfen masa seçin.">
-                    <f:selectItem itemLabel="Masanızı Seçin..." itemValue="#{null}" />
-                    <f:selectItems value="#{customerSessionBean.allTables}" var="t" itemValue="#{t.id}" itemLabel="#{t.tableNumber}" />
+                <h:selectOneMenu value="#{customerSessionBean.selectedTableId}" styleClass="form-select text-center" required="true" requiredMessage="#{languageBean.tr('Lütfen masa seçin.', 'Please select a table.')}">
+                    <f:selectItem itemLabel="#{languageBean.tr('Masanızı Seçin...', 'Select Your Table...')}" itemValue="#{null}" />
+                    <f:selectItems value="#{customerSessionBean.allTables}" var="t" itemValue="#{t.id}" itemLabel="#{t.tableNumber}#{customerSessionBean.isTableOccupied(t.id) ? languageBean.tr(' (Dolu)', ' (Occupied)') : ''}" />
                 </h:selectOneMenu>
             </div>
             
-            <h:commandButton value="Menüye Git" action="#{customerSessionBean.setTableAndEnter}" styleClass="btn btn-accent w-100" />
+            <h:commandButton value="#{languageBean.tr('Menüye Git', 'Go to Menu')}" action="#{customerSessionBean.setTableAndEnter}" styleClass="btn btn-accent w-100" />
             
         </h:form>
     </div>
